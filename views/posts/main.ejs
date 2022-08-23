@@ -1,0 +1,27 @@
+<% layout("layouts/boilerplate") %>
+    <h1>ALL POSTS</h1>
+    <% if(!posts){ %>
+        <h1>NO POSTS YET</h1>
+        <% } else {%>
+            <% for(let post of posts){%>
+                <div class="card mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="<%= post.image.url %>" alt="" class="img-fluid w-100 h-100">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= post.description %>
+                                </h5>
+                                <p class="card-text">
+                                    <%= post.tags %>
+                                </p>
+                                <a class="btn btn-primary" href="/posts/<%= post._id %>">View</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                    <% } %>

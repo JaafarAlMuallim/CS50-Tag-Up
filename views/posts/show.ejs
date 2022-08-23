@@ -1,0 +1,106 @@
+<% layout("layouts/boilerplate") %>
+    <link rel="stylesheet" href="/css/stars.css">
+    <div class="row">
+        <div class="col-6">
+            <div id="CampCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <% Post.images.forEach((img,i)=> { %>
+                        <div class="carousel-Post <%= i === 0 ? " active" : "" %> ">
+                            <img src="<%= img.scrolls %> " class="d-block w-100" alt="slide">
+                        </div>
+                        <% }) %>
+                            <% if(Post.images.length> 1){ %>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#CampCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#CampCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                                <% } %>
+                </div>
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= Post.name %>
+                        </h5>
+                        <p class="card-text">
+                            <%= Post.description%>
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-Post ">$<%= Post.price %>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a class="card-link btn btn-info" href="/Posts/<%= Post._id %>/edit">Edit</a>
+                        <form class="d-inline" action="/Posts/<%= Post._id %>?_method=DELETE" method="Post">
+                            <Button class="btn btn-danger">Delete</Button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <%= diff <=1 ? "Today" : diff+ " Days Ago" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <% if(currentUser){ %>
+                <h2 class="my-5">Leave a comment :)</h2>
+                <form class="my-5 needs-validation" action="/Posts/<%=Post._id %>/comment" method="POST" novalidate>
+                    <!-- <div>
+                        <fieldset class="starability-basic">
+                            <legend>First rating:</legend>
+                            <input type="radio" id="no-rate" class="input-no-rate" name="comment[rating]" value="1"
+                                checked aria-label="No rating." />
+                            <input type="radio" id="first-rate1" name="comment[rating]" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="comment[rating]" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="comment[rating]" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="comment[rating]" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="comment[rating]" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                    </div> -->
+                    <div class="mb-3">
+                        <label class="form-label" for="body">comment</label>
+                        <textarea name="comment[body]" id="body" cols="30" rows="3" class="form-control"
+                            required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <button class="btn btn-success">Submit comment</button>
+                </form>
+                <% } %>
+
+                    <% for(let comment of Post.comments){ %>
+                        <div class="card my-5">
+
+                            <div class="card-body">
+                                <h5 class="card-title"> By: <%= comment.author.name %>
+                                </h5>
+                                <p class="starability-result" data-rating="<%= comment.rating %>">
+                                    Rated: <%= comment.rating %> starts
+                                </p>
+                                <p class=" card-text">comment: <%= comment.body %>
+                                </p>
+                                <% if( currentUser && comment.author.equals(currentUser._id)) {%>
+                                    <form class="d-inline"
+                                        action="/Posts/<%= Post._id %>/comment/<%= comment._id %>?_method=DELETE"
+                                        method="Post">
+                                        <Button class="btn btn-sm btn-danger">Delete</Button>
+                                    </form>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+        </div>
+    </div>

@@ -1,0 +1,52 @@
+<% layout("layouts/boilerplate") %>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="image">
+                <img src="<%= currentUser.icon.url %>" class="profile-icon" alt="">
+                <div class="overlay">
+                    <a href="/profile/edit">
+                        <!-- <p class="description">Change Icon</p> -->
+                        <form action="/profile/editImg?_method=PATCH" method="POST" id="editForm"
+                            enctype="multipart/form-data">
+                            <label for="icon" class="edit x">Edit</label>
+                            <input type="file" name="icon" hidden id="icon">
+                        </form>
+                        <!-- check this -->
+                        <%if(currentUser.icon.url!="xx.png"){ %>
+                            <form action="/profile/deleteImg?_method=PATCH" method="POST">
+                                <label for="removing" class="remove x">Remove</label>
+                                <button id="removing" hidden>Remove</button>
+                            </form>
+                            <%}%>
+
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= currentUser.name %>
+                    </h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-Post ">
+                            <%= currentUser.username %>
+                        </li>
+                        <li class="list-group-Post ">
+                            <%= currentUser.email %>
+                        </li>
+                        <li class="list-group-Post ">
+                            <%= currentUser.phone%>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a class="card-link btn btn-info" href="profile/edit" method="POST">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/JS/auto.js"></script>
