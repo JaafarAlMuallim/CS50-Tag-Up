@@ -10,6 +10,8 @@ const flash = require("connect-flash")
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 
+const mongoSanitize = require("express-mongo-sanitize");
+
 const passport = require("passport");
 const localStrategy = require("passport-local");
 
@@ -27,9 +29,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+const dbUrl = process.env.URL || 'mongodb://localhost:27017/PUp';
+const secret = process.env.SECRET || "thisshouldbebetter"
 
+// MONGO STORE SESSION BEFORE DEPLOYING
 const config = {
-    secret: "thisisbetter",
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -41,10 +46,12 @@ const config = {
 
 app.use(session(config));
 app.use(flash());
-
+app.use(mongoSanitize({ replaceWith: '_' }))
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(new localStrategy(User.authenticate()));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -61,7 +68,7 @@ main().then(() => {
     .catch(err => console.log("ERROR!"));
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/PUp');
+    mongoose.connect(dbUrl);
 }
 const db = mongoose.connection;
 
@@ -79,6 +86,7 @@ const users = require("./routes/users");
 app.use("/", users);
 app.use("/posts", posts);
 app.use("/posts/:id/comment", comments);
+
 
 app.all("*", (req, res, next) => {
 

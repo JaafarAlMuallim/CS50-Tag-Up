@@ -11,7 +11,8 @@ const iconSchema = new Schema({
         type: String,
         default: ""
     }
-})
+});
+
 const userSchema = new Schema({
     email: {
         type: String,
@@ -19,15 +20,25 @@ const userSchema = new Schema({
         unique: true
     },
     icon: iconSchema,
-    // this where the user post will go
+    // this where the user posts history will go
     history: {
         type: Schema.Types.ObjectId,
         ref: "Post"
     },
-    // his liked posts will go here 
-    liked: {
+    // if he click on the "save" button on a post it will be saved here 
+    saved: {
         type: Schema.Types.ObjectId,
         ref: "Post"
+    },
+    posts: {
+        fav: {
+            type: Number,
+            default: 0
+        },
+        posted: {
+            type: Number,
+            default: 0
+        }
     }
 });
 

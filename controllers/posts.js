@@ -1,24 +1,42 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 const { cloudinary } = require("../cloudinary");
 
-
+// render form from the views directory
 module.exports.renderNewForm = (req, res, next) => {
-    res.render("new");
+    return res.render("posts/new");
 }
+// render form page the views directory
 module.exports.main = async (req, res, next) => {
     const posts = await Post.find();
     console.log(posts);
     return res.render("posts/main", { posts });
 
 }
+
+/* Create New Post and Save it by the author name,
+Post should consist of image and description and tags
+Date is to save the post and show when it was uploaded in the show page
+increment number of posted photos of the user then redirect 
+to the show page of the post
+*/
 module.exports.createPost = async (req, res, next) => {
     const post = new Post(req.body.post);
-    post.image = { url: req.file.url, filename: req.file.filename };
+    const user = await User.findById(req.user._id);
+    post.image = { url: req.file.path, filename: req.file.filename };
     post.date = Date.now();
+    post.author = req.user._id;
+    user.posts.posted += 1;
+    await user.save();
     await post.save();
     req.flash("success", `Successfully Added The Post`);
     return res.redirect(`/posts/${post._id}`);
 }
+
+/* render show page after populating the comments and the author of the post
+if the post is still in the database and not delete
+and show when the post was uploaded (Same day or after)
+*/
 module.exports.show = async (req, res, next) => {
     const post = await Post.findById(req.params.id).populate({
         path: "comments",
@@ -26,13 +44,18 @@ module.exports.show = async (req, res, next) => {
             path: "author"
         }
     }).populate("author");
+    console.log(post);
     if (!post) {
         req.flash("error", "Cannot Find This Post");
-        res.redirect("/posts/main");
+        res.redirect("/posts");
     }
     let diff = (Math.abs(Date.now() - post.date)) / (1000 * 60 * 60 * 24);
     return res.render("posts/show", { post: post, diff: Math.ceil(diff) });
 }
+
+/* update the post either by updating the image, description or tags
+and if the image was updated destroy the saved image 
+*/
 module.exports.update = async (req, res, next) => {
     const { id } = req.params;
     const post = await Post.findByIdAndUpdate(id, req.body.post, { runValidators: true });
@@ -44,6 +67,8 @@ module.exports.update = async (req, res, next) => {
     req.flash("success", `Successfully Updated This Post`);
     return res.redirect(`/posts/${id}`);
 }
+
+// render form page the views directory
 module.exports.renderUpdate = async (req, res, next) => {
     const { id } = req.params;
     const post = await Post.findById(id);
@@ -53,9 +78,17 @@ module.exports.renderUpdate = async (req, res, next) => {
     }
     return res.render("posts/edit", { post })
 }
+
+/* delete the whole post and decrement the number of posted photos 
+of the author 
+*/
 module.exports.delete = async (req, res, next) => {
+    const user = await User.findById(req.user._id);
     const { id } = req.params;
     await Post.findByIdAndDelete(id);
+    user.posts.posted--;
+    await user.save();
     req.flash("success", `Successfully Deleted The Post`);
-    return res.redirect("/posts/main");
+    return res.redirect("/posts");
 }
+

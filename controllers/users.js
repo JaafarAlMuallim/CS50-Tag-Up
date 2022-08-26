@@ -1,16 +1,7 @@
 // Setup
 const User = require("../models/user");
+const Post = require("../models/post");
 const { cloudinary } = require("../cloudinary");
-
-const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-    }
-})
 
 module.exports.renderRegister = (req, res) => {
     res.render("users/register");
@@ -25,6 +16,8 @@ module.exports.register = async (req, res, next) => {
         }
         const user = new User({ email, username });
         const newUser = await User.register(user, password);
+        user.icon = { url: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", filename: "" }
+        await user.save()
         req.login(newUser, err => {
             if (err) return next(err);
             req.flash("success", "Welcome To P UP!");
@@ -68,7 +61,7 @@ module.exports.updateProfile = async (req, res) => {
         user.icon = newIcon;
     }
     await user.save();
-    req.flash("success", `Successfully Updated Your Profile ${user.name}`);
+    req.flash("success", `Successfully Updated Your Profile`);
     res.redirect("/profile");
 }
 
@@ -82,7 +75,7 @@ module.exports.editImg = async (req, res) => {
     console.log(newIcon);
     user.icon = newIcon;
     await user.save();
-    req.flash("success", `Successfully Updated Your Profile Icon ${user.name}`);
+    req.flash("success", `Successfully Updated Your Profile Icon`);
     res.redirect("/profile");
 }
 module.exports.deleteImg = async (req, res) => {
@@ -91,10 +84,43 @@ module.exports.deleteImg = async (req, res) => {
     const newIcon = { url: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", filename: "" };
     user.icon = newIcon;
     await user.save();
-    req.flash("success", `Successfully Updated Your Profile Icon to Default ${user.name}`);
+    req.flash("success", `Successfully Updated Your Profile Icon to Default`);
     res.redirect("/profile")
 }
 
+module.exports.renderHistory = async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (user.posts.posted == 0) {
+        req.flash("error", `You Don't Have Posted Anything Yet`);
+        return res.redirect(`/posts/`);
+    }
+    shared = []
+    const allPosts = await Post.find();
+    for (let post of allPosts) {
+        if (req.user._id.equals(post.author._id)) {
+            shared.push(post);
+        }
+    }
+    console.log(shared);
+    return res.render("users/history", { shared });
+
+}
+
+module.exports.renderFav = async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+    if (user.posts.fav == 0) {
+        req.flash("error", `You Don't Have Any Favorited Posts Yet`);
+        return res.redirect(`/posts/`);
+    }
+    let fav = [];
+    const allPosts = await Post.find()
+    for (let post of allPosts) {
+        if (post.author.equals(req.user)) {
+            fav.push(post);
+        }
+    }
+    return res.render("users/saved", { fav });
+}
 
 module.exports.logout = (req, res) => {
     req.logout((err) => {

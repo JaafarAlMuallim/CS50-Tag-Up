@@ -5,7 +5,7 @@ const AppError = require("./utils/error");
 
 module.exports.validatePost = (req, res, next) => {
 
-    const { error } = PostSchema.validate(req.body);
+    const { error } = postSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(",");
         throw new AppError(msg, 400)
@@ -52,13 +52,3 @@ module.exports.isAuthor = async (req, res, next) => {
     }
     next();
 }
-// //Add is Admin Later
-// module.exports.isAdmin = async (req, res, next) => {
-//     const user = await User.findById(req.user._id);
-//     // const user = await User.findById(id);
-//     if (user.role != "Admin") {
-//         req.flash("error", "You Do Not Have Premission To Do That");
-//         return res.redirect(`/Posts/menu`)
-//     }
-//     next();
-// }

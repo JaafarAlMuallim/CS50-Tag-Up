@@ -21,6 +21,9 @@ router.route("/profile")
     .get(isLoggedIn, users.showProfile)
     .put(isLoggedIn, users.updateProfile);
 
+router.get("/history", isLoggedIn, users.renderHistory);
+router.get("/favorites", isLoggedIn, users.renderFav);
+
 router.get("/profile/edit", isLoggedIn, users.renderEdit);
 router.patch("/profile/editImg", isLoggedIn, upload.single("icon"), users.editImg);
 router.patch("/profile/deleteImg", isLoggedIn, users.deleteImg);

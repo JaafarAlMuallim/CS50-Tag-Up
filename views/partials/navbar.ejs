@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">P-Up</a>
+        <a class="navbar-brand" href="#">Push-Up</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link active" aria-current="page" href="/posts/">Home</a>
-                <a class="nav-link" href="/posts/new">New</a>
+                <a class="nav-link" href="/posts/new">New Post</a>
             </div>
         </div>
         <div class="navbar-nav ml-auto">
@@ -20,26 +20,23 @@
                     <a class="nav-link active" href="/register">Sign Up</a>
                 </li>
                 <%} else{ %>
-                    <li class="nav-item">
-                        <!-- as for new users they will have the photo automatically but for now-->
-                        <a href="/profile" class="nav-link active">
-                            <% if(currentUser?.icon){ %>
-                                <img src="<%= currentUser.icon.url %>" class="icon" alt="">
-                                <% } else{ %>
-                                    <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                                        class="icon" alt="">
-                                    <% } %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="<%= currentUser.icon.url %>" class="icon" alt="">
+                            <strong>
+                                <%= currentUser.username %>
+                            </strong>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/profile" class="nav-link active">
-                            <%= currentUser.username %>
-                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/history">History</a></li>
+                            <li><a class="dropdown-item" href="/favorites">Favorite</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/logout">Logout</a>
                     </li>
-
                     <%} %>
         </div>
     </div>

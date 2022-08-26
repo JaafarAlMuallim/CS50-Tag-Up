@@ -9,6 +9,17 @@ body {
     border-radius: 50%;
 }
 
+.post-name {
+    text-shadow: 1px 1px 2px rgb(85, 53, 201);
+    font-size: x-large;
+}
+
+.post-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 .image {
     position: relative;
     width: 300px;
@@ -26,8 +37,9 @@ body {
     color: #fff;
     display: flex;
     flex-direction: column;
-    align-Posts: center;
+    align-items: center;
     justify-content: center;
+    text-align: center;
     opacity: 0;
     transition: opacity 0.25s;
     backdrop-filter: blur(5px);
