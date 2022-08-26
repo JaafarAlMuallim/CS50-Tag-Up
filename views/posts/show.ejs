@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="/css/stars.css">
     <div class="row">
         <div class="col-6 <%=currentUser ? "":" offset-3"%>">
-            <div class="card text-bg-dark  mb-5">
+            <div class="card mb-5">
                 <img src="<%=post.image.url%>" class="d-block w-100 card-img-top" alt="">
                 <div class="mx-3 my-3">
                     <img src="<%= post.author.icon.url %>" alt="" class="post-icon d-inline">
@@ -12,24 +12,27 @@
                         </strong>
                     </p>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <%= post.description %>
-                    </h5>
-                    <br>
-                    <p class="card-text">
-                        <%= post.tags%>
-                    </p>
+                <div class="card-header fw-bold fs-4">
+                    <%= post.description %>
                 </div>
-                <div class="card-body">
-                    <a class="card-link btn btn-info" href="/posts/<%= post._id %>/edit">Edit</a>
-                    <form class="d-inline" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-                        <Button class="btn btn-danger">Delete</Button>
-                    </form>
-                </div>
-                <div class="card-footer text-muted">
-                    <%= diff <=1 ? "Today" : diff+ " Days Ago" %>
-                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item fw-bolder fs-6">
+                        <%= post.tags %>
+                    </li>
+                </ul>
+                <% if(currentUser){ %>
+                    <% if(post.author._id.equals(currentUser._id)){ %>
+                        <div class="card-body">
+                            <a class="card-link btn btn-info" href="/posts/<%= post._id %>/edit">Edit</a>
+                            <form class="d-inline" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+                                <Button class="btn btn-danger">Delete</Button>
+                            </form>
+                        </div>
+                        <% } %>
+                            <% } %>
+                                <div class="card-footer text-muted">
+                                    <%= diff <=1 ? "Today" : diff+ " Days Ago" %>
+                                </div>
             </div>
         </div>
 
@@ -54,7 +57,7 @@
                         <div class="card my-5">
 
                             <div class="card-body">
-                                <h5 class="card-title"> By: <%= comment.author.name %>
+                                <h5 class="card-title"> By: <%= comment.author.username %>
                                 </h5>
                                 <p class=" card-text">comment: <%= comment.body %>
                                 </p>

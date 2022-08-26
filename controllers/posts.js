@@ -9,7 +9,6 @@ module.exports.renderNewForm = (req, res, next) => {
 // render form page the views directory
 module.exports.main = async (req, res, next) => {
     const posts = await Post.find();
-    console.log(posts);
     return res.render("posts/main", { posts });
 
 }

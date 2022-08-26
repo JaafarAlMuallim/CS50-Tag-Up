@@ -72,7 +72,6 @@ module.exports.editImg = async (req, res) => {
         await cloudinary.uploader.destroy(user.icon.filename);
     }
     const newIcon = { url: req.file.path, filename: req.file.filename };
-    console.log(newIcon);
     user.icon = newIcon;
     await user.save();
     req.flash("success", `Successfully Updated Your Profile Icon`);
@@ -101,7 +100,6 @@ module.exports.renderHistory = async (req, res) => {
             shared.push(post);
         }
     }
-    console.log(shared);
     return res.render("users/history", { shared });
 
 }
