@@ -7,7 +7,7 @@ const comment = require("../controllers/comments");
 const wrapAsync = require("../utils/wrapAsync");
 
 
-router.post("/", validateComment, isLoggedIn, wrapAsync(comment.createReview));
+router.post("/", validateComment, isLoggedIn, wrapAsync(comment.createComment));
 
-router.delete("/:reviewId", isLoggedIn, isCommentAuthor, wrapAsync(comment.deleteReview))
+router.delete("/:commentId", isLoggedIn, isCommentAuthor, wrapAsync(comment.deleteComment))
 module.exports = router;

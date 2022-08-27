@@ -21,15 +21,17 @@ const userSchema = new Schema({
     },
     icon: iconSchema,
     // this where the user posts history will go
-    history: {
+    history: [{
         type: Schema.Types.ObjectId,
         ref: "Post"
-    },
+    }],
     // if he click on the "save" button on a post it will be saved here 
-    saved: {
+    saved: [{
+
         type: Schema.Types.ObjectId,
         ref: "Post"
-    },
+
+    }],
     posts: {
         fav: {
             type: Number,

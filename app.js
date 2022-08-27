@@ -87,7 +87,6 @@ app.use("/", users);
 app.use("/posts", posts);
 app.use("/posts/:id/comment", comments);
 
-
 app.all("*", (req, res, next) => {
 
     next(new AppError("Page Not Found", 404));

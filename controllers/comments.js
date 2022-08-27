@@ -18,6 +18,6 @@ module.exports.deleteComment = async (req, res, next) => {
     await Post.findByIdAndUpdate(id, { $pull: { comments: commentId } });
     await Comment.findByIdAndDelete(commentId);
     req.flash("success", "Successfully Deleted a Comment");
-    res.redirect(`/post/${id}`);
+    res.redirect(`/posts/${id}`);
     // res.send("DELETE ROUTE");
 }

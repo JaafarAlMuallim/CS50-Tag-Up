@@ -26,6 +26,7 @@ module.exports.createPost = async (req, res, next) => {
     post.date = Date.now();
     post.author = req.user._id;
     user.posts.posted += 1;
+    user.history.push(post._id);
     await user.save();
     await post.save();
     req.flash("success", `Successfully Added The Post`);
@@ -43,7 +44,6 @@ module.exports.show = async (req, res, next) => {
             path: "author"
         }
     }).populate("author");
-    console.log(post);
     if (!post) {
         req.flash("error", "Cannot Find This Post");
         res.redirect("/posts");
@@ -67,6 +67,19 @@ module.exports.update = async (req, res, next) => {
     return res.redirect(`/posts/${id}`);
 }
 
+/* Favorite post */
+module.exports.fav = async (req, res, next) => {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    const user = await User.findById(req.user._id);
+    post.saves++;
+    user.posts.fav++;
+    user.saved.push(post._id);
+    await post.save();
+    await user.save();
+    return res.redirect(`/posts/${id}`);
+}
+
 // render form page the views directory
 module.exports.renderUpdate = async (req, res, next) => {
     const { id } = req.params;
@@ -84,7 +97,9 @@ of the author
 module.exports.delete = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     const { id } = req.params;
-    await Post.findByIdAndDelete(id);
+    const post = await Post.findByIdAndDelete(id);
+    await user.updateOne({ $pull: { history: post._id } });
+    await cloudinary.uploader.destroy(post.image.filename);
     user.posts.posted--;
     await user.save();
     req.flash("success", `Successfully Deleted The Post`);

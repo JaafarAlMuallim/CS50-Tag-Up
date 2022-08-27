@@ -3,9 +3,13 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const { cloudinary } = require("../cloudinary");
 
+
+// render register form
 module.exports.renderRegister = (req, res) => {
     res.render("users/register");
 }
+/* register new users and his password and hash it using the plugin in the model
+then login automatically and show the main page*/
 
 module.exports.register = async (req, res, next) => {
     try {
@@ -29,43 +33,38 @@ module.exports.register = async (req, res, next) => {
     }
 }
 
-
+//  render login form 
 module.exports.renderLogin = (req, res) => {
     res.render("users/login");
 }
+// return user either to the main or the page he was looking for if any
 module.exports.userLogin = (req, res) => {
     req.flash("success", "Welcome Back!");
     const url = req.session.returnTo || "/main";
     delete req.session.returnTo;
     res.redirect(url);
 }
+
+/* show profile info of the current user (username, email, shared posts, saved posts, and his icon) 
+    which also contains a form to change the icon*/
 module.exports.showProfile = async (req, res) => {
-    // const user = await User.findById(currentUser._id);
-    // res.render("users/profile", { user });
     res.render("users/profile");
 }
+
+/* render the edit form of the profile */
 module.exports.renderEdit = (req, res) => {
     res.render("users/editProfile");
 }
+
+/* changing info using the form edit profile form */
 module.exports.updateProfile = async (req, res) => {
     const user = await User.findByIdAndUpdate(req.user._id, req.body)
-    await user.save();
-    if (req.file) {
-        await cloudinary.uploader.destroy(user.icon.filename);
-        const newIcon = { url: req.file.path, filename: req.file.filename };
-        user.icon = newIcon;
-    }
-    if (req.body.deleteIcon.length) {
-        await cloudinary.uploader.destroy(user.icon.filename);
-        const newIcon = { url: req.file.path, filename: req.file.filename };
-        user.icon = newIcon;
-    }
     await user.save();
     req.flash("success", `Successfully Updated Your Profile`);
     res.redirect("/profile");
 }
 
-
+/* updating profile if he has added new icon or removed the previous one */
 module.exports.editImg = async (req, res) => {
     const user = await User.findById(req.user._id);
     if (user.icon.url != "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png") {
@@ -86,38 +85,25 @@ module.exports.deleteImg = async (req, res) => {
     req.flash("success", `Successfully Updated Your Profile Icon to Default`);
     res.redirect("/profile")
 }
-
+/* populate the posts history from the user and show it in the page */
 module.exports.renderHistory = async (req, res) => {
-    const user = await User.findById(req.user._id);
+    let user = await User.findById(req.user._id);
     if (user.posts.posted == 0) {
-        req.flash("error", `You Don't Have Posted Anything Yet`);
+        req.flash("error", `You Have Not Posted Anything Yet`);
         return res.redirect(`/posts/`);
     }
-    shared = []
-    const allPosts = await Post.find();
-    for (let post of allPosts) {
-        if (req.user._id.equals(post.author._id)) {
-            shared.push(post);
-        }
-    }
-    return res.render("users/history", { shared });
-
+    user = await user.populate("history");
+    return res.render("users/history", { user });
 }
-
+/* populate the saved posts from the user and show it in the page */
 module.exports.renderFav = async (req, res, next) => {
-    const user = await User.findById(req.user._id);
+    let user = await User.findById(req.user._id);
     if (user.posts.fav == 0) {
-        req.flash("error", `You Don't Have Any Favorited Posts Yet`);
+        req.flash("error", `You Have Not Any Favorited Posts Yet`);
         return res.redirect(`/posts/`);
     }
-    let fav = [];
-    const allPosts = await Post.find()
-    for (let post of allPosts) {
-        if (post.author.equals(req.user)) {
-            fav.push(post);
-        }
-    }
-    return res.render("users/saved", { fav });
+    user = await user.populate("saved");
+    return res.render("users/saved", { user });
 }
 
 module.exports.logout = (req, res) => {

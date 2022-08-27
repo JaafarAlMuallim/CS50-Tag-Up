@@ -33,6 +33,10 @@ const postSchema = new Schema({
     ],
     date: {
         type: Date
+    },
+    saves: {
+        type: Number,
+        default: 0
     }
 })
 postSchema.post('findOneAndDelete', async function (doc) {

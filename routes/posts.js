@@ -18,6 +18,7 @@ router.get("/new", isLoggedIn, post.renderNewForm)
 
 router.route("/:id")
     .get(wrapAsync(post.show))
+    .post(isLoggedIn, wrapAsync(post.fav))
     .put(isLoggedIn, isAuthor, upload.single("image"), validatePost, wrapAsync(post.update))
     .delete(isLoggedIn, isAuthor, wrapAsync(post.delete));
 
