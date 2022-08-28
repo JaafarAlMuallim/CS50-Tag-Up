@@ -86,7 +86,7 @@ module.exports.renderUpdate = async (req, res, next) => {
     const post = await Post.findById(id);
     if (!post) {
         req.flash("error", "Cannot find this Post");
-        res.redirect("/posts/main");
+        res.redirect("/posts/");
     }
     return res.render("posts/edit", { post })
 }

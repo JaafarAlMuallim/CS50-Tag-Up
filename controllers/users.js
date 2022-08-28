@@ -40,7 +40,7 @@ module.exports.renderLogin = (req, res) => {
 // return user either to the main or the page he was looking for if any
 module.exports.userLogin = (req, res) => {
     req.flash("success", "Welcome Back!");
-    const url = req.session.returnTo || "/main";
+    const url = req.session.returnTo || "/posts/";
     delete req.session.returnTo;
     res.redirect(url);
 }
@@ -110,6 +110,6 @@ module.exports.logout = (req, res) => {
     req.logout((err) => {
         if (err) { return next(err); }
         req.flash("success", "See You Next Time");
-        res.redirect('/main');
+        res.redirect('/posts/');
     });
 }
