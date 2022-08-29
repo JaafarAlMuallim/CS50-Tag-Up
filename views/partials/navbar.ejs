@@ -9,19 +9,11 @@
             <a class="nav-link active" aria-current="page" href="/posts/">Home</a>
             <a class="nav-link active me-3" href="/posts/new">New Post</a>
 
-            <form class="d-flex my-2 mb-1 ms-3" role="search">
+            <form class="d-flex my-2 mb-1 ms-3" role="search" action="/profiles">
                 <input class="form-control me-2" type="search" id="search" placeholder="@Users and #Tags"
-                    aria-label="Search" name="search">
+                    aria-label="Search" name="q">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <% if(!currentUser){ %>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/login">Login</a>
-                </li>
-                <li class="nav-item">s
-                    <a class="nav-link active" href="/register">Sign Up</a>
-                </li>
-                <% } %>
         </div>
         <div class="navbar-nav ms-auto">
             <% if(currentUser){ %>
@@ -41,8 +33,14 @@
                     </ul>
                 </li>
 
-                <%} %>
-
+                <%} else{ %>
+                    <li class="nav-item float-end">
+                        <a class="nav-link active" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item float-end">
+                        <a class="nav-link active" href="/register">Sign Up</a>
+                    </li>
+                    <% } %>
         </div>
     </div>
 </nav>

@@ -25,7 +25,7 @@ module.exports.register = async (req, res, next) => {
         req.login(newUser, err => {
             if (err) return next(err);
             req.flash("success", "Welcome To P UP!");
-            res.redirect("/posts/");
+            res.redirect("/editProfile/");
         });
     } catch (e) {
         req.flash("error", e.message);

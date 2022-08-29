@@ -2,8 +2,7 @@
     <div class="row">
         <div class="col-6 <%=currentUser ? "":" offset-3"%>">
             <div class="card mb-5">
-
-                <img src="<%=post.image.url%>" class="d-block w-100 card-img-top" alt="">
+                <img src="<%=post.image.url%>" class="card-img-top" alt="">
                 <div class="card-header">
                     <img src="<%= post.author.icon.url %>" alt="" class="post-icon d-inline">
                     <p class="card-text d-inline mt-2">
@@ -44,13 +43,11 @@
                             <% } %>
                                 <% } %>
                                     <% } %>
-                                        <div class="card-footer text-muted fs-5">
+                                        <div class="card-footer text-muted fs-6">
                                             <%= diff <=1 ? "Today" : diff+ " Days Ago" %>
                                         </div>
             </div>
         </div>
-
-
         <div class="col-6">
             <% if(currentUser){ %>
                 <h2 class="my-5">Leave a comment :)</h2>

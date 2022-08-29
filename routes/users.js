@@ -4,6 +4,7 @@ const multer = require("multer");
 const router = express.Router();
 const passport = require("passport");
 const users = require("../controllers/users");
+const searches = require("../controllers/searches");
 const { isLoggedIn } = require("../middleware");
 const wrapAsync = require("../utils/wrapAsync");
 const { storage } = require("../cloudinary");
@@ -27,6 +28,7 @@ router.get("/favorites", isLoggedIn, users.renderFav);
 router.get("/profile/edit", isLoggedIn, users.renderEdit);
 router.patch("/profile/editImg", isLoggedIn, upload.single("icon"), users.editImg);
 router.patch("/profile/deleteImg", isLoggedIn, users.deleteImg);
+router.get("/profiles/", searches.searches)
 
 router.get('/logout', users.logout);
 

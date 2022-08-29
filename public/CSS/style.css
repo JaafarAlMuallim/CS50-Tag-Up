@@ -7,6 +7,10 @@ body {
     background-color: #c0c0c0;
 }
 
+main {
+    position: relative;
+}
+
 .icon {
     width: 25px;
     height: 25px;
@@ -28,8 +32,8 @@ body {
 
 .image {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 450px;
+    height: 450px;
 }
 
 .overlay {
@@ -81,6 +85,10 @@ body {
     margin-bottom: 50px;
 }
 
+.topImg {
+    border-radius: 4%;
+}
+
 .img-fluid {
     border-radius: 20px;
 }
@@ -93,8 +101,6 @@ body {
     border-radius: 12px;
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
         url("https://images.unsplash.com/photo-1482398650355-d4c6462afa0e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
-    /* background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url("https://images.unsplash.com/photo-1483356256511-b48749959172?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"); */
     background-size: cover;
     background-position: center;
     text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
@@ -106,9 +112,6 @@ body {
 .work {
     position: relative;
     text-align: center;
-    /* left: 50%;
-    top: 30%;
-    transform: translate(-50%, -50%); */
 }
 
 .nav-link {

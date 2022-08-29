@@ -32,6 +32,10 @@ const userSchema = new Schema({
         ref: "Post"
 
     }],
+    bio: {
+        type: String,
+        default: ""
+    },
     posts: {
         fav: {
             type: Number,
