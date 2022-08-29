@@ -1,7 +1,7 @@
 <% layout("layouts/boilerplate") %>
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="image">
                 <% if(currentUser.icon){ %>
                     <img src="<%= currentUser.icon.url %>" class="profile-icon" alt="">
@@ -10,21 +10,22 @@
                             class="profile-icon" alt="">
                         <% } %>
                             <div class="overlay">
-                                    <form action="/profile/editImg?_method=PATCH" method="POST" id="editForm"
-                                        enctype="multipart/form-data">
-                                        <label for="icon" class="edit x">Edit</label>
-                                        <input type="file" name="icon" hidden id="icon">
+                                <form action="/profile/editImg?_method=PATCH" method="POST" id="editForm"
+                                    enctype="multipart/form-data">
+                                    <label for="icon" class="edit x">Edit</label>
+                                    <input type="file" name="icon" hidden id="icon">
+                                </form>
+                                <% if(currentUser.icon.url!="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                                    ){ %>
+                                    <form action="/profile/deleteImg?_method=PATCH" method="POST">
+                                        <label for="removing" class="remove x">Remove</label>
+                                        <button id="removing" hidden>Remove</button>
                                     </form>
-                                        <% if(currentUser.icon.url!="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"){ %>
-                                            <form action="/profile/deleteImg?_method=PATCH" method="POST">
-                                                <label for="removing" class="remove x">Remove</label>
-                                                <button id="removing" hidden>Remove</button>
-                                            </form>
-                                        <%}%>
+                                    <%}%>
                             </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="card mt-5">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -35,17 +36,20 @@
                     </h6>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Posted: <%= currentUser.posts.posted %> </li>
-                  <li class="list-group-item">Faviorates: <%= currentUser.posts.fav %> </li>
-                  <li class="list-group-item"><a class="card-link btn btn-info" href="profile/edit" method="POST">Edit</a></li>
+                    <li class="list-group-item">Posted: <%= currentUser.posts.posted %>
+                    </li>
+                    <li class="list-group-item">Faviorates: <%= currentUser.posts.fav %>
+                    </li>
+                    <li class="list-group-item"><a class="card-link btn btn-info" href="profile/edit"
+                            method="POST">Edit</a></li>
                 </ul>
-              </div>
-                    <div class="card-body">
-                        
-                    </div>
-                </div>
+            </div>
+            <div class="card-body">
+
             </div>
         </div>
+    </div>
+    </div>
     </div>
 
     <script src="/JS/auto.js"></script>
