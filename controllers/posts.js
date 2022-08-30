@@ -80,6 +80,19 @@ module.exports.fav = async (req, res, next) => {
     return res.redirect(`/posts/${id}`);
 }
 
+module.exports.unfav = async (req, res, next) => {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    const user = await User.findById(req.user._id).populate("saved");
+    post.saves--;
+    user.posts.fav--;
+    // user.saved.push(post._id);
+    await user.updateOne({ $pull: { saved: id } });
+    await post.save();
+    await user.save();
+    return res.redirect(`/posts/${id}`);
+}
+
 // render form page the views directory
 module.exports.renderUpdate = async (req, res, next) => {
     const { id } = req.params;

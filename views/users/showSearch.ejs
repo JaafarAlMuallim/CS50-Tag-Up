@@ -1,48 +1,49 @@
 <% layout("layouts/boilerplate") %>
-    <% if(users){ %>
-        <% for(let user of users){%>
-            <div class="card mb-3">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="<%= user.icon.url %>" alt="" class="img-fluid w-50 h-100">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Username: <%= user.username %>
-                            </h5>
-                            <p class="card-text">
-                                Posted: <%= user.posts.posted %>
-                            </p>
+    <%- include("../partials/header") %>
+        <% if(users){ %>
+            <% for(let user of users){%>
+                <div class="card mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="<%= user.icon.url %>" alt="" class="img-fluid w-50 h-100">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Username: <%= user.username %>
+                                </h5>
+                                <p class="card-text">
+                                    Posted: <%= user.posts.posted %>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <% } %>
-                <% } else if(posts) {%>
-                    <% for(let post of posts){%>
-                        <div class="card mb-3">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img src="<%= post.image.url %>" alt="" class="img-fluid w-100 h-100">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <%= post.description %>
-                                        </h5>
-                                        <p class="card-text">
-                                            <%= post.tags %>
-                                        </p>
-                                        <a class="btn btn-primary" href="/posts/<%= post._id %>">View</a>
-                                        </p>
+                <% } %>
+                    <% } else if(posts) {%>
+                        <% for(let post of posts){%>
+                            <div class="card mb-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="<%= post.image.url %>" alt="" class="img-fluid w-100 h-100">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <%= post.description %>
+                                            </h5>
+                                            <p class="card-text">
+                                                <%= post.tags %>
+                                            </p>
+                                            <a class="btn btn-primary" href="/posts/<%= post._id %>">View</a>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <% } %>
-                            <% } else{%>
-                                <h1>NO POST OR TAG WITH THAT NAME <br>
-                                    @USER AND #TAG</h1>
-                                <% } %>
+                            <% } %>
+                                <% } else{%>
+                                    <h1>NO POST OR TAG WITH THAT NAME <br>
+                                        @USER AND #TAG</h1>
+                                    <% } %>

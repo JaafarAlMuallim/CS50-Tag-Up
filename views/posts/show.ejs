@@ -1,6 +1,6 @@
 <% layout("layouts/boilerplate") %>
     <div class="row">
-        <div class="col-6 <%=currentUser ? "":" offset-3"%>">
+        <div class="col-md-6 <%=currentUser ? "":" offset-3"%>">
             <div class="card mb-5">
                 <img src="<%=post.image.url%>" class="card-img-top" alt="">
                 <div class="card-header">
@@ -33,13 +33,17 @@
                 </div>
                 <% } else { %>
                     <% if(!currentUser.saved.includes(post._id)){ %>
-                        <form action="/posts/<%=post._id%>" method="POST">
+                        <form action="/posts/<%=post._id%>/save" method="POST">
                             <div class="my-2 d-grid col-6 offset-3 gap-2"> <button class="btn btn-info" id="favorite"
                                     name="fav">Save</button>
                             </div>
                         </form>
                         <% } else{%>
-                            <h5 class="text-center my-2 text-black bg-white">Post is Saved</h5>
+                            <form action="/posts/<%=post._id%>/unsave" method="POST">
+                                <div class="my-2 d-grid col-6 offset-3 gap-2"> <button class="btn btn-info" id="not-fav"
+                                        name="unfav">Unsave</button>
+                                </div>
+                            </form>
                             <% } %>
                                 <% } %>
                                     <% } %>
@@ -48,7 +52,7 @@
                                         </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <% if(currentUser){ %>
                 <h2 class="my-5">Leave a comment :)</h2>
                 <form class="my-5 needs-validation" action="/posts/<%=post._id %>/comment" method="POST" novalidate>
