@@ -9,12 +9,15 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">
-                                    Username: <%= user.username %>
+                                <h5 class="card-title fs-4">
+                                    <%= user.username %>
                                 </h5>
                                 <p class="card-text">
                                     Posted: <%= user.posts.posted %>
                                 </p>
+                                <p>Bio: <%= user.bio %>
+                                </p>
+                                <p><a href="/profile/<%= user._id %>" class="btn btn-info">View</a></p>
                             </div>
                         </div>
                     </div>

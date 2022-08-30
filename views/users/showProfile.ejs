@@ -1,0 +1,58 @@
+<% layout("layouts/boilerplate") %>
+    <%- include("../partials/header") %>
+        <div class="show-profile">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="image">
+                        <img src="<%= user.icon.url %>" class="profile-icon" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= user.username %>
+                            </h5>
+                            <h6 class="card-sbtitle mb-2 text-muted">
+                                <%= user.email %>
+                            </h6>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Posted: <%= user.posts.posted %>
+                            </li>
+                            <li class="list-group-item">Bio: <%= user.bio %>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <% if(!user.history){ %>
+                <h1>This User Has Not Posted Anything Yet</h1>
+                <% }else{ %>
+                    <% for(let post of user.history){%>
+                        <div class="card mb-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="<%= post.image.url %>" alt="" class="img-fluid w-100 h-100">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <%= post.description %>
+                                        </h5>
+                                        <p class="card-text">
+                                            <%= post.tags %>
+                                        </p>
+                                        <a class="btn btn-primary" href="/posts/<%= post._id %>">View</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                            <% } %>
+        </div>

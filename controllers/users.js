@@ -51,6 +51,17 @@ module.exports.showProfile = async (req, res) => {
     res.render("users/profile");
 }
 
+// show profile of the searches user and his post 
+module.exports.renderProfile = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id).populate("history");
+    if (!user) {
+        req.flash("error", "No Such User");
+        return res.redirect("/posts/")
+    }
+    return res.render("users/showProfile", { user });
+}
+
 /* render the edit form of the profile */
 module.exports.renderEdit = (req, res) => {
     res.render("users/editProfile");
@@ -58,6 +69,7 @@ module.exports.renderEdit = (req, res) => {
 
 /* changing info using the form edit profile form */
 module.exports.updateProfile = async (req, res) => {
+    console.log(req.body);
     const user = await User.findByIdAndUpdate(req.user._id, req.body)
     await user.save();
     req.flash("success", `Successfully Updated Your Profile`);

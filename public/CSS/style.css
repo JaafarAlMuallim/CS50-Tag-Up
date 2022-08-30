@@ -2,8 +2,8 @@ body {
     margin: auto;
     padding: auto;
     /* background: linear-gradient(#d78c8c, #aab0ed); */
-    height: 150vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background-color: #c0c0c0;
 }
 
@@ -36,12 +36,16 @@ main {
     height: 450px;
 }
 
+.show-profile {
+    height: 40vh;
+}
+
 .overlay {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.6);
     color: #fff;

@@ -77,6 +77,7 @@ module.exports.fav = async (req, res, next) => {
     user.saved.push(post._id);
     await post.save();
     await user.save();
+    req.flash("success", "Post Saved in Favourites");
     return res.redirect(`/posts/${id}`);
 }
 
@@ -90,6 +91,7 @@ module.exports.unfav = async (req, res, next) => {
     await user.updateOne({ $pull: { saved: id } });
     await post.save();
     await user.save();
+    req.flash("success", "Post Remove from Favourites");
     return res.redirect(`/posts/${id}`);
 }
 

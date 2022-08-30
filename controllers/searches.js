@@ -8,14 +8,18 @@ const Post = require("../models/post");
 module.exports.searches = async (req, res, next) => {
     let { q } = req.query;
     if (q[0] == "#") {
-        q = q.substring(1);
+        console.log(q);
         const users = "";
-        const posts = await Post.find({ description: { $regex: '.*' + q + '.*', $options: 'i' } });
+        const posts = await Post.find({ tags: { $regex: q, $options: 'i' } });
+        console.log("posts" + posts);
+        console.log("users" + users);
         return res.render("users/showSearch", { users, posts });
     } else if (q[0] == "@") {
         q = q.substring(1);
         const posts = "";
         const users = await User.find({ username: { $regex: '.*' + q + '.*', $options: 'i' } });
+        console.log(posts);
+        console.log(users);
         return res.render("users/showSearch", { users, posts });
     }
 

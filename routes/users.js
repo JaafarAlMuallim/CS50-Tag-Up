@@ -22,6 +22,9 @@ router.route("/profile")
     .get(isLoggedIn, users.showProfile)
     .put(isLoggedIn, users.updateProfile);
 
+
+router.get("/profile/:id",users.renderProfile);
+
 router.get("/history", isLoggedIn, users.renderHistory);
 router.get("/favorites", isLoggedIn, users.renderFav);
 

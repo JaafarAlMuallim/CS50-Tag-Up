@@ -34,7 +34,7 @@ const userSchema = new Schema({
     }],
     bio: {
         type: String,
-        default: ""
+        default: "Hey There."
     },
     posts: {
         fav: {
