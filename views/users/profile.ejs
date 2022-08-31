@@ -3,8 +3,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="image">
-                <% if(currentUser.icon){ %>
-                    <img src="<%= currentUser.icon.url %>" class="profile-icon" alt="">
+                <% if(user.icon){ %>
+                    <img src="<%= user.icon.url %>" class="profile-icon" alt="">
                     <% } else { %>
                         <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                             class="profile-icon" alt="">
@@ -15,7 +15,8 @@
                                     <label for="icon" class="edit x">Edit</label>
                                     <input type="file" name="icon" hidden id="icon">
                                 </form>
-                                <% if(currentUser.icon.url!="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"){ %>
+                                <% if(user.icon.url!="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                                    ){ %>
                                     <form action="/profile/deleteImg?_method=PATCH" method="POST">
                                         <label for="removing" class="remove x">Remove</label>
                                         <button id="removing" hidden>Remove</button>
@@ -28,21 +29,24 @@
             <div class="card mt-5">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <%= currentUser.username %>
+                        <%= user.username %>
                     </h5>
                     <h6 class="card-sbtitle mb-2 text-muted">
-                        <%= currentUser.email %>
+                        <%= user.email %>
                     </h6>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Posted: <%= currentUser.posts.posted %>
+                    <li class="list-group-item">Posted: <%= user.posts.posted %>
                     </li>
-                    <li class="list-group-item">Faviorates: <%= currentUser.posts.fav %>
+                    <li class="list-group-item">Favorites: <%= user.posts.fav %>
                     </li>
-                    <li class="list-group-item">Bio: <%= currentUser.bio %>
+                    <li class="list-group-item">Bio: <%= user.bio %>
                     </li>
-                    <li class="list-group-item"><a class="card-link btn btn-info" href="profile/edit"
-                            method="POST">Edit</a></li>
+                    <li class="list-group-item">
+                        <a class="card-link btn btn-warning" href="/profile/edit">Edit</a>
+                        <a class="card-link btn btn-info" href="/history">History</a>
+                        <a class="card-link btn btn-info" href="/favorites">Favorites</a>
+                    </li>
                 </ul>
             </div>
             <div class="card-body">
@@ -51,10 +55,10 @@
         </div>
     </div>
     <div>
-        <% if(!currentUser.history){ %>
+        <% if(!user.history){ %>
             <h1>You Have Not Posted Anything Yet</h1>
             <% }else{ %>
-                <% for(let post of currentUser.history){%>
+                <% for(let post of user.history){%>
                     <div class="card mb-3">
                         <div class="row">
                             <div class="col-md-4">

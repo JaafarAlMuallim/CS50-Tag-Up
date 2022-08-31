@@ -2,90 +2,92 @@
     <div class="row">
         <div class="col-md-6 <%=currentUser ? "":" offset-3"%>">
             <div class="card mb-5">
-                <img src="<%=post.image.url%>" class="card-img-top" alt="">
-                <div class="card-header">
-                    <img src="<%= post.author.icon.url %>" alt="" class="post-icon d-inline">
-                    <p class="card-text d-inline mt-2">
-                        <strong>
-                            <%= post.author.username%>
-                        </strong>
-                    </p>
-                </div>
-                <div class="card-header fw-bold fs-4">
-                    <%= post.description %>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item fw-bolder fs-5">
-                        <%= post.tags %>
-                    </li>
-                    <% if(currentUser){ %>
-                        <% if(post.author._id.equals(currentUser._id)){ %>
-                            <li class="list-group-item">comments: <%= post.comments.length %>
-                            </li>
-                            <li class="list-group-item">saves: <%= post.saves %>
-                            </li>
-                </ul>
-                <div class="card-body">
-                    <a class="card-link btn btn-info" href="/posts/<%= post._id %>/edit">Edit</a>
-                    <form class="d-inline" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-                        <Button class="btn btn-danger">Delete</Button>
+                <a class="no-underline" href="/profile/<%= post.author._id %> ">
+                    <img src="<%=post.image.url%>" class="card-img-top" alt="">
+                    <div class="card-header">
+                        <img src="<%= post.author.icon.url %>" alt="" class="post-icon d-inline">
+                        <p class="card-text d-inline mt-2">
+                            <strong>
+                                <%= post.author.username%>
+                            </strong>
+                        </p>
+                </a>
+            </div>
+            <div class="card-header fw-bold fs-4">
+                <%= post.description %>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item fw-bolder fs-5">
+                    <%= post.tags %>
+                </li>
+                <% if(currentUser){ %>
+                    <% if(post.author._id.equals(currentUser._id)){ %>
+                        <li class="list-group-item">comments: <%= post.comments.length %>
+                        </li>
+                        <li class="list-group-item">saves: <%= post.saves %>
+                        </li>
+            </ul>
+            <div class="card-body">
+                <a class="card-link btn btn-info" href="/posts/<%= post._id %>/edit">Edit</a>
+                <form class="d-inline" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+                    <Button class="btn btn-danger">Delete</Button>
+                </form>
+            </div>
+            <% } else { %>
+                <% if(!currentUser.saved.includes(post._id)){ %>
+                    <form action="/posts/<%=post._id%>/save" method="POST">
+                        <div class="my-2 d-grid col-6 offset-3 gap-2"> <button class="btn btn-info saving"
+                                name="fav">Save</button>
+                        </div>
                     </form>
-                </div>
-                <% } else { %>
-                    <% if(!currentUser.saved.includes(post._id)){ %>
-                        <form action="/posts/<%=post._id%>/save" method="POST">
-                            <div class="my-2 d-grid col-6 offset-3 gap-2"> <button class="btn btn-info" id="favorite"
-                                    name="fav">Save</button>
+                    <% } else{%>
+                        <form action="/posts/<%=post._id%>/unsave" method="POST">
+                            <div class="my-2 d-grid col-6 offset-3 gap-2"> <button class="btn btn-warning saving"
+                                    name="unfav">Unsave</button>
                             </div>
                         </form>
-                        <% } else{%>
-                            <form action="/posts/<%=post._id%>/unsave" method="POST">
-                                <div class="my-2 d-grid col-6 offset-3 gap-2"> <button class="btn btn-info" id="not-fav"
-                                        name="unfav">Unsave</button>
-                                </div>
-                            </form>
+                        <% } %>
                             <% } %>
                                 <% } %>
-                                    <% } %>
-                                        <div class="card-footer text-muted fs-6">
-                                            <%= diff <=1 ? "Today" : diff+ " Days Ago" %>
-                                        </div>
-            </div>
+                                    <div class="card-footer text-muted fs-6">
+                                        <%= diff <=1 ? "Today" : diff+ " Days Ago" %>
+                                    </div>
         </div>
-        <div class="col-md-6">
-            <% if(currentUser){ %>
-                <h2 class="my-5">Leave a comment :)</h2>
-                <form class="my-5 needs-validation" action="/posts/<%=post._id %>/comment" method="POST" novalidate>
-                    <div class="mb-3">
-                        <label class="form-label" for="body">comment</label>
-                        <textarea name="comment[body]" id="body" cols="30" rows="3" class="form-control"
-                            required></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
+    </div>
+    <div class="col-md-6">
+        <% if(currentUser){ %>
+            <h2 class="my-5">Leave a comment :)</h2>
+            <form class="my-5 needs-validation" action="/posts/<%=post._id %>/comment" method="POST" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="body">comment</label>
+                    <textarea name="comment[body]" id="body" cols="30" rows="3" class="form-control"
+                        required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <button class="btn btn-success">Submit comment</button>
+            </form>
+            <% } %>
+
+                <% for(let comment of post.comments){ %>
+                    <div class="card my-5">
+
+                        <div class="card-body">
+                            <h5 class="card-title"> By: <%= comment.author.username %>
+                            </h5>
+                            <p class=" card-text">comment: <%= comment.body %>
+                            </p>
+                            <% if(currentUser && comment.author.equals(currentUser._id)) {%>
+                                <form class="d-inline"
+                                    action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
+                                    method="POST">
+                                    <Button class="btn btn-sm btn-danger">Delete</Button>
+                                </form>
+                                <% } %>
                         </div>
                     </div>
-                    <button class="btn btn-success">Submit comment</button>
-                </form>
-                <% } %>
+                    <% } %>
 
-                    <% for(let comment of post.comments){ %>
-                        <div class="card my-5">
-
-                            <div class="card-body">
-                                <h5 class="card-title"> By: <%= comment.author.username %>
-                                </h5>
-                                <p class=" card-text">comment: <%= comment.body %>
-                                </p>
-                                <% if(currentUser && comment.author.equals(currentUser._id)) {%>
-                                    <form class="d-inline"
-                                        action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
-                                        method="POST">
-                                        <Button class="btn btn-sm btn-danger">Delete</Button>
-                                    </form>
-                                    <% } %>
-                            </div>
-                        </div>
-                        <% } %>
-
-        </div>
+    </div>
     </div>

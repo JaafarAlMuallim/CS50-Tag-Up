@@ -1,3 +1,7 @@
+html {
+    height: 100%;
+}
+
 body {
     margin: auto;
     padding: auto;
@@ -5,6 +9,15 @@ body {
     height: 100%;
     width: 100%;
     background-color: #c0c0c0;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 main {
@@ -168,14 +181,11 @@ main {
     visibility: hidden;
 }
 
-#favorite {
-    background-color: #f7a440;
-    color: #201803;
+.saving {
     transition: ease-in 300ms;
-    border: 1px solid #ccc;
 }
 
-#favorite:hover {
+#favorites:hover {
     box-shadow: 0 0 11px rgba(33, 33, 33, .4);
     transform: scale(1.2) perspective(1px);
 }

@@ -25,7 +25,7 @@ module.exports.register = async (req, res, next) => {
         req.login(newUser, err => {
             if (err) return next(err);
             req.flash("success", "Welcome To P UP!");
-            res.redirect("/editProfile/");
+            res.redirect("/profile/");
         });
     } catch (e) {
         req.flash("error", e.message);
@@ -48,7 +48,8 @@ module.exports.userLogin = (req, res) => {
 /* show profile info of the current user (username, email, shared posts, saved posts, and his icon) 
     which also contains a form to change the icon*/
 module.exports.showProfile = async (req, res) => {
-    res.render("users/profile");
+    const user = await User.findById(req.user._id).populate("history");
+    res.render("users/profile", { user });
 }
 
 // show profile of the searches user and his post 
@@ -59,17 +60,19 @@ module.exports.renderProfile = async (req, res) => {
         req.flash("error", "No Such User");
         return res.redirect("/posts/")
     }
+    if (req.user?._id == id) {
+        return res.redirect("/profile/");
+    }
     return res.render("users/showProfile", { user });
 }
 
 /* render the edit form of the profile */
-module.exports.renderEdit = (req, res) => {
-    res.render("users/editProfile");
+module.exports.renderEdit = async (req, res) => {
+    return res.render("users/editProfile");
 }
 
 /* changing info using the form edit profile form */
 module.exports.updateProfile = async (req, res) => {
-    console.log(req.body);
     const user = await User.findByIdAndUpdate(req.user._id, req.body)
     await user.save();
     req.flash("success", `Successfully Updated Your Profile`);
@@ -111,7 +114,7 @@ module.exports.renderHistory = async (req, res) => {
 module.exports.renderFav = async (req, res, next) => {
     let user = await User.findById(req.user._id);
     if (user.posts.fav == 0) {
-        req.flash("error", `You Have Not Any Favorited Posts Yet`);
+        req.flash("error", `You Have Not Saved Any Posts Yet`);
         return res.redirect(`/posts/`);
     }
     user = await user.populate("saved");
