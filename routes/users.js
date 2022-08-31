@@ -27,13 +27,13 @@ router.get("/profile/edit", isLoggedIn, users.renderEdit);
 router.get("/profile/:id", users.renderProfile);
 
 router.get("/history", isLoggedIn, users.renderHistory);
-router.get("/favourite", isLoggedIn, users.renderFav);
+router.get("/favorites", isLoggedIn, users.renderFav);
 
 
 
 router.patch("/profile/editImg", isLoggedIn, upload.single("icon"), users.editImg);
 router.patch("/profile/deleteImg", isLoggedIn, users.deleteImg);
-router.get("/profiles/", searches.searches)
+router.get("/search/", searches.searches)
 
 router.get('/logout', users.logout);
 
