@@ -4,9 +4,10 @@
         <div class="col-md-6">
             <div class="image">
                 <% if(user.icon){ %>
-                    <img src="<%= user.icon.url %>" class="profile-icon" alt="">
+                    <img crossorigin="anonymous" src="<%= user.icon.url %>" class="profile-icon" alt="">
                     <% } else { %>
-                        <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                        <img crossorigin="anonymous"
+                            src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                             class="profile-icon" alt="">
                         <% } %>
                             <div class="overlay">
@@ -15,8 +16,7 @@
                                     <label for="icon" class="edit x">Edit</label>
                                     <input type="file" name="icon" hidden id="icon">
                                 </form>
-                                <% if(user.icon.url!="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                                    ){ %>
+                                <% if(user.icon.url!="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80"){ %>
                                     <form action="/profile/deleteImg?_method=PATCH" method="POST">
                                         <label for="removing" class="remove x">Remove</label>
                                         <button id="removing" hidden>Remove</button>
@@ -62,7 +62,8 @@
                     <div class="card mb-3">
                         <div class="row">
                             <div class="col-md-4">
-                                <img src="<%= post.image.url %>" alt="" class="img-fluid w-100 h-100">
+                                <img crossorigin="anonymous" src="<%= post.image.url %>" alt=""
+                                    class="img-fluid w-100 h-100">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">

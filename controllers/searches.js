@@ -1,12 +1,13 @@
 // Setup
 const User = require("../models/user");
 const Post = require("../models/post");
+const mongoSanitize = require('mongo-sanitize');
 
 
 /* find people or tags searches for*/
 
 module.exports.searches = async (req, res, next) => {
-    let { q } = req.query;
+    let { q } = mongoSanitize(req.query);
     if (q[0] == "#") {
         const users = "";
         const posts = await Post.find({ tags: { $regex: q, $options: 'i' } });

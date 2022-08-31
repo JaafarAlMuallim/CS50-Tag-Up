@@ -2,17 +2,18 @@
     <div class="row">
         <div class="col-md-6 <%=currentUser ? "":" offset-3"%>">
             <div class="card mb-5">
-                <a class="no-underline" href="/profile/<%= post.author._id %> ">
-                    <img src="<%=post.image.url%>" class="card-img-top" alt="">
+                <a class="tags text-black" href="/profile/<%= post.author._id %> ">
+                    <img crossorigin="anonymous" src="<%=post.image.url%>" class="card-img-top" alt="">
                     <div class="card-header">
-                        <img src="<%= post.author.icon.url %>" alt="" class="post-icon d-inline">
-                        <p class="card-text d-inline mt-2">
+                        <img crossorigin="anonymous" src="<%= post.author.icon.url %>" alt="" class="post-icon">
+                        <p class="card-text d-inline fs-4">
                             <strong>
                                 <%= post.author.username%>
                             </strong>
                         </p>
                 </a>
             </div>
+
             <div class="card-header fw-bold fs-4">
                 <%= post.description %>
             </div>
@@ -20,7 +21,7 @@
                 <li class="list-group-item fw-bolder fs-5">
                     <% for(tag of post.tags.trim().split("#")) {%>
                         <% if(tag !="" ){ %>
-                            <a href="/search?q=%23<%= tag %>">#<%= tag %></a>
+                            <a class="tags" href="/search?q=%23<%= tag %>">#<%= tag %></a>
                             <% } %>
                                 <% } %>
                 </li>

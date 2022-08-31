@@ -20,7 +20,7 @@ module.exports.register = async (req, res, next) => {
         }
         const user = new User({ email, username });
         const newUser = await User.register(user, password);
-        user.icon = { url: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", filename: "" }
+        user.icon = { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80", filename: "" }
         await user.save()
         req.login(newUser, err => {
             if (err) return next(err);
@@ -94,7 +94,8 @@ module.exports.editImg = async (req, res) => {
 module.exports.deleteImg = async (req, res) => {
     const user = await User.findById(req.user._id);
     await cloudinary.uploader.destroy(user.icon.filename);
-    const newIcon = { url: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", filename: "" };
+    const newIcon = { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80",
+     filename: "" };
     user.icon = newIcon;
     await user.save();
     req.flash("success", `Successfully Updated Your Profile Icon to Default`);
