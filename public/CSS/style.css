@@ -107,7 +107,7 @@ main {
 }
 
 .img-fluid {
-    width: 250px;
+    width: 300px;
     height: 250px;
     object-fit: cover;
     border-radius: 20px;
