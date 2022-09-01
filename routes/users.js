@@ -33,7 +33,7 @@ router.get("/favorites", isLoggedIn, users.renderFav);
 
 
 
-router.patch("/profile/editImg", isLoggedIn, upload.single("icon"), users.editImg);
+router.patch("/profile/editImg", isLoggedIn, upload.single("icon"), wrapAsync(users.editImg));
 router.patch("/profile/deleteImg", isLoggedIn, users.deleteImg);
 router.get("/search/", searches.searches)
 
