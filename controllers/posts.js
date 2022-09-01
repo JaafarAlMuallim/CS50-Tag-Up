@@ -60,7 +60,7 @@ module.exports.update = async (req, res, next) => {
     const post = await Post.findByIdAndUpdate(id, req.body.post, { runValidators: true });
     if (req.file) {
         await cloudinary.uploader.destroy(post.image.filename);
-        post.image = { url: req.file.url, filename: req.file.filename }
+        post.image = { url: req.file.path, filename: req.file.filename }
     }
     await post.save();
     req.flash("success", `Successfully Updated This Post`);

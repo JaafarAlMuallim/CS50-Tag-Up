@@ -17,6 +17,10 @@ module.exports.searches = async (req, res, next) => {
         const posts = "";
         const users = await User.find({ username: { $regex: '.*' + q + '.*', $options: 'i' } });
         return res.render("users/showSearch", { users, posts });
+    } else {
+        const users = ""
+        const posts = ""
+        return res.render("users/showSearch", { users, posts });
     }
 
 }
