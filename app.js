@@ -10,16 +10,11 @@ const flash = require("connect-flash")
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const helmet = require("helmet");
-
 const mongoSanitize = require("express-mongo-sanitize");
-
 const passport = require("passport");
 const localStrategy = require("passport-local");
-
-
 const app = express();
 const AppError = require("./utils/error");
-
 const User = require("./models/user");
 
 app.engine("ejs", ejsMate);
@@ -30,11 +25,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-const dbUrl = process.env.URL || 'mongodb://localhost:27017/PUp';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/PUp';
 const secret = process.env.SECRET || "thisshouldbebetter"
 
 // MONGO STORE SESSION BEFORE DEPLOYING
+
+const MongoStore = require('connect-mongo');
+
 const config = {
+    store: MongoStore.create({
+        mongoUrl: dbUrl,
+        crypto: secret,
+        touchAfter: 24 * 60 * 60
+    }),
     name: "__iwwuz",
     secret,
     resave: false,
@@ -133,19 +136,6 @@ const users = require("./routes/users");
 app.use("/", users);
 app.use("/posts", posts);
 app.use("/posts/:id/comment", comments);
-
-app.get("/addbio", async (erq, res, next) => {
-    const user_one = await User.findById("6309fec84f1e1f320e578724")
-    const user_two = await User.findById("6309d3c97a14144ffcc4b8ef")
-    const user_three = await User.findById("6309cc5202fb66640a387c36")
-    user_one.bio = "HELLO THERE, I AM ALICE NICE TO MEET Y'ALL";
-    user_two.bio = "HELLO THERE, I AM COLT NICE TO MEET Y'ALL";
-    user_three.bio = "HELLO THERE, I AM BOB NICE TO MEET Y'ALL";
-    await user_one.save();
-    await user_two.save();
-    await user_three.save();
-    res.send("DONE!!");
-})
 
 app.all("*", (req, res, next) => {
 
