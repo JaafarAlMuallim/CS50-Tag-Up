@@ -109,7 +109,7 @@ main {
 .img-fluid {
     width: 215.32px;
     height: 161.49px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 20px;
 }
 
