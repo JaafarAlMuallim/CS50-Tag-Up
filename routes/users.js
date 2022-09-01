@@ -10,6 +10,8 @@ const wrapAsync = require("../utils/wrapAsync");
 const { storage } = require("../cloudinary");
 const upload = multer({ storage });
 
+router.get("/", users.renderHome);
+
 router.route("/register")
     .get(users.renderRegister)
     .post(wrapAsync(users.register));

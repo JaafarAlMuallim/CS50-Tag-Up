@@ -4,6 +4,12 @@ const Post = require("../models/post");
 const { cloudinary } = require("../cloudinary");
 
 
+// render home page
+
+module.exports.renderHome = (req, res) => {
+    res.render("home");
+}
+
 // render register form
 module.exports.renderRegister = (req, res) => {
     res.render("users/register");
@@ -94,8 +100,10 @@ module.exports.editImg = async (req, res) => {
 module.exports.deleteImg = async (req, res) => {
     const user = await User.findById(req.user._id);
     await cloudinary.uploader.destroy(user.icon.filename);
-    const newIcon = { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80",
-     filename: "" };
+    const newIcon = {
+        url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80",
+        filename: ""
+    };
     user.icon = newIcon;
     await user.save();
     req.flash("success", `Successfully Updated Your Profile Icon to Default`);
