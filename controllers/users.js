@@ -12,7 +12,7 @@ module.exports.renderHome = (req, res) => {
 
 // render register form
 module.exports.renderRegister = (req, res) => {
-    res.render("users/register");
+    res.render("users/register", { layout: "boilerplate", title: "Register" });
 }
 /* register new users and his password and hash it using the plugin in the model
 then login automatically and show the main page*/
@@ -41,7 +41,7 @@ module.exports.register = async (req, res, next) => {
 
 //  render login form 
 module.exports.renderLogin = (req, res) => {
-    res.render("users/login");
+    res.render("users/login", { layout: "boilerplate", title: "Login" });
 }
 // return user either to the main or the page he was looking for if any
 module.exports.userLogin = (req, res) => {
@@ -55,7 +55,7 @@ module.exports.userLogin = (req, res) => {
     which also contains a form to change the icon*/
 module.exports.showProfile = async (req, res) => {
     const user = await User.findById(req.user._id).populate("history");
-    res.render("users/profile", { user });
+    res.render("users/profile", { layout: "boilerplate", title: "Profile", user });
 }
 
 // show profile of the searches user and his post 
@@ -69,12 +69,12 @@ module.exports.renderProfile = async (req, res) => {
     if (req.user?._id == id) {
         return res.redirect("/profile/");
     }
-    return res.render("users/showProfile", { user });
+    return res.render("users/showProfile", { layout: "boilerplate", title: `${user.username} Profile`, user });
 }
 
 /* render the edit form of the profile */
 module.exports.renderEdit = (req, res) => {
-    return res.render("users/editProfile");
+    return res.render("users/editProfile", { layout: "boilerplate", title: "Edit Profile" });
 }
 
 /* changing info using the form edit profile form */
@@ -117,7 +117,7 @@ module.exports.renderHistory = async (req, res) => {
         return res.redirect(`/posts/`);
     }
     user = await user.populate("history");
-    return res.render("users/history", { user });
+    return res.render("users/history", { layout: "boilerplate", title: "History", user });
 }
 /* populate the saved posts from the user and show it in the page */
 module.exports.renderFav = async (req, res, next) => {
@@ -127,7 +127,7 @@ module.exports.renderFav = async (req, res, next) => {
         return res.redirect(`/posts/`);
     }
     user = await user.populate("saved");
-    return res.render("users/saved", { user });
+    return res.render("users/saved", { layout: "boilerplate", title: "Saved", user });
 }
 
 module.exports.logout = (req, res) => {

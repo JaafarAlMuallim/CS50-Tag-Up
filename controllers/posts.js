@@ -4,12 +4,12 @@ const { cloudinary } = require("../cloudinary");
 
 // render form from the views directory
 module.exports.renderNewForm = (req, res, next) => {
-    return res.render("posts/new");
+    return res.render("posts/new", { layout: "boilerplate", title: "New Post" });
 }
 // render form page the views directory
 module.exports.main = async (req, res, next) => {
     const posts = await Post.find();
-    return res.render("posts/main", { posts });
+    return res.render("posts/main", { layout: "boilerplate", title: "Tag-Up", posts });
 
 }
 
@@ -49,7 +49,7 @@ module.exports.show = async (req, res, next) => {
         res.redirect("/posts");
     }
     let diff = (Math.abs(Date.now() - post.date)) / (1000 * 60 * 60 * 24);
-    return res.render("posts/show", { post: post, diff: Math.ceil(diff) });
+    return res.render("posts/show", { layout: "boilerplate", title: "Show Post", post, diff: Math.ceil(diff) });
 }
 
 /* update the post either by updating the image, description or tags
@@ -103,7 +103,7 @@ module.exports.renderUpdate = async (req, res, next) => {
         req.flash("error", "Cannot find this Post");
         res.redirect("/posts/");
     }
-    return res.render("posts/edit", { post })
+    return res.render("posts/edit", { layout: "boilerplate", title: "Update Post", post })
 }
 
 /* delete the whole post and decrement the number of posted photos 
