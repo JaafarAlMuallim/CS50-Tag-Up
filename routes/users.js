@@ -28,13 +28,13 @@ router.get("/profile/edit", isLoggedIn, users.renderEdit);
 
 router.get("/profile/:id", users.renderProfile);
 
-router.get("/history", isLoggedIn, users.renderHistory);
-router.get("/favorites", isLoggedIn, users.renderFav);
+router.get("/history", isLoggedIn, wrapAsync(users.renderHistory));
+router.get("/favorites", isLoggedIn, wrapAsync(users.renderFav));
 
 
 
 router.patch("/profile/editImg", isLoggedIn, upload.single("icon"), wrapAsync(users.editImg));
-router.patch("/profile/deleteImg", isLoggedIn, users.deleteImg);
+router.patch("/profile/deleteImg", isLoggedIn, wrapAsync(users.deleteImg));
 router.get("/search/", searches.searches)
 
 router.get('/logout', users.logout);

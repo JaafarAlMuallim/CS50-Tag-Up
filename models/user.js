@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const iconSchema = new Schema({
     url: {
         type: String,
-        default: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+        default: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80"
     },
     filename: {
         type: String,
