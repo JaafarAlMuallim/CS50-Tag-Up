@@ -2,10 +2,10 @@
     <form action="/profile/?_method=PUT" method="POST" novalidate class="needs-validation">
         <div class="row">
             <h1 class="text-center">Edit Profile</h1>
-            <div class="col-6">
+            <div class="col-md-6">
                 <img crossorigin="anonymous" src="<%= currentUser.icon.url %>" class="profile-icon" alt="">
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="mb-3"> <label for="email" class="form-label">Email</label>
                     <input class="form-control" type="email" name="email" id="email" value="<%= currentUser.email %>"
                         required>

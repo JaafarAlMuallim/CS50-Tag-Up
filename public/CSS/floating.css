@@ -99,24 +99,6 @@
     box-shadow: 0 20px 20px -10px rgba(255, 152, 0, 0.5);
 }
 
-/* .floating-container .float-element:nth-child(1) {}
-
-.floating-container .float-element:nth-child(2) {}
-
-.floating-container .float-element:nth-child(3) {} */
-
-/* .element-container .float-element:nth-child(1) {
-
-}
-
-.element-container .float-element:nth-child(2) {
-
-}
-
-.element-container .float-element:nth-child(3) {
-
-} */
-
 .no-under {
     text-decoration: none;
 }
