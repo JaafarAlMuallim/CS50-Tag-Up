@@ -5,9 +5,9 @@
 #### Web: https://still-ocean-51261.herokuapp.com/
 
 #### Description:
-
 The website will get the user to post photos with small description and some tags
 and users can interact with others posts either by saving it or commenting on it.
+
 #### cloudinary: 
 in cloudinary file is the configuration of cloudinary storage to store the images and the image allowed formats.
 
