@@ -16,8 +16,7 @@
                                     <label for="icon" class="edit x">Edit</label>
                                     <input type="file" name="icon" hidden id="icon">
                                 </form>
-                                <% if(user.icon.url!="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80"
-                                    ){ %>
+                                <% if(user.icon.url!="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1274&q=80"){ %>
                                     <form action="/profile/deleteImg?_method=PATCH" method="POST">
                                         <label for="removing" class="remove x">Remove</label>
                                         <button id="removing" hidden>Remove</button>
