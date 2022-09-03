@@ -30,7 +30,7 @@ module.exports.register = async (req, res, next) => {
         await user.save()
         req.login(newUser, err => {
             if (err) return next(err);
-            req.flash("success", "Welcome To P UP!");
+            req.flash("success", "Welcome To Tag-Up!");
             res.redirect("/profile/");
         });
     } catch (e) {
