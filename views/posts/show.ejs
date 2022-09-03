@@ -59,7 +59,7 @@
                                     </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 <%=currentUser ? "":" offset-md-3"%">
         <% if(currentUser){ %>
             <h2 class="my-5">Leave a comment :)</h2>
             <form class="my-5 needs-validation" action="/posts/<%=post._id %>/comment" method="POST" novalidate>
