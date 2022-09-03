@@ -1,7 +1,5 @@
 # Tag-Up
 
-#### Video Demo: 
-
 #### Web: https://still-ocean-51261.herokuapp.com/
 
 #### Description:
